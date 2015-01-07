@@ -401,6 +401,24 @@ public class Wallet implements Serializable, BlockChainListener, PeerFilterProvi
         }
     }
 
+   public BigInteger getTxValueAfterDemurrage(Transaction tx, int height) {
+        int oldheight = (int)tx.getRefHeight();
+        BigInteger in_value = tx.getValueSentToMe(this);
+        BigDecimal in_dec_value = (new BigDecimal(in_value)).movePointLeft(8);
+        
+        return in_value.subtract(Transaction.getDemurrageInSatoshi(oldheight,height,in_dec_value));
+    }
+    
+    public BigInteger getBalanceAfterDemurrage() {
+        int height = getLastBlockSeenHeight();
+        BigInteger value = BigInteger.ZERO;
+        
+        for (Transaction tx : unspent.values()) value = value.add(getTxValueAfterDemurrage(tx, height));
+        for (Transaction tx : pending.values()) value = value.add(getTxValueAfterDemurrage(tx, height));
+        
+        return value;
+    }
+
     /**
      * <p>Sets up the wallet to auto-save itself to the given file, using temp files with atomic renames to ensure
      * consistency. After connecting to a file, you no longer need to save the wallet manually, it will do it
@@ -1876,8 +1894,11 @@ public class Wallet implements Serializable, BlockChainListener, PeerFilterProvi
             }
             BigInteger totalOutput = value;
 
-            // Calculate the demurrage fee
+            // Set reference height
             int height = getLastBlockSeenHeight();
+            req.tx.setRefHeight(height);
+
+            // Calculate the demurrage fee
             BigInteger fee = BigInteger.ZERO;
       
             for (Transaction tx : unspent.values()) { 
@@ -1985,7 +2006,6 @@ public class Wallet implements Serializable, BlockChainListener, PeerFilterProvi
             // transaction lists more appropriately, especially when the wallet starts to generate transactions itself
             // for internal purposes.
             req.tx.setPurpose(Transaction.Purpose.USER_PAYMENT);
-            req.tx.setRefHeight(getLastBlockSeenHeight());
             req.completed = true;
             req.fee = calculatedFee;
             log.info("  completed: {}", req.tx);
