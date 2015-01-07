@@ -220,9 +220,14 @@ public abstract class NetworkParameters implements Serializable {
 
 
 
-    public static final int TARGET_TIMESPAN = CoinDefinition.TARGET_TIMESPAN;//14 * 24 * 60 * 60;  // 2 weeks per difficulty cycle, on average.
-    public static final int TARGET_SPACING = CoinDefinition.TARGET_SPACING;// 10 * 60;  // 10 minutes per block.
-    public static final int INTERVAL = CoinDefinition.INTERVAL;//TARGET_TIMESPAN / TARGET_SPACING;
+    public static final int TARGET_TIMESPAN = 14 * 24 * 60 * 60; // 2 weeks per difficulty cycle, on average.
+    public static final int TARGET_SPACING = 10 * 60; // 10 minutes per block.
+    public static final int INTERVAL = TARGET_TIMESPAN / TARGET_SPACING;
+
+    public static final int DIFF_FILTER_THRESHOLD = 28336;
+
+    public static final int FILTERED_TARGET_TIMESPAN = 90 * 60; // 1.5 hours per difficulty cycle, on average.
+    public static final int FILTERED_INTERVAL = FILTERED_TARGET_TIMESPAN / TARGET_SPACING;
     
     /**
      * Blocks with a timestamp after this should enforce BIP 16, aka "Pay to script hash". This BIP changed the

@@ -456,6 +456,27 @@ public class Utils {
     }
 
     /**
+    * @see Utils#decodeCompactBits(long)
+    */
+    public static long encodeCompactBits(BigInteger value) {
+        long result;
+        int size = value.toByteArray().length;
+        if (size <= 3)
+        result = value.longValue() << 8 * (3 - size);
+        else
+        result = value.shiftRight(8 * (size - 3)).longValue();
+        // The 0x00800000 bit denotes the sign.
+        // Thus, if it is already set, divide the mantissa by 256 and increase the exponent.
+        if ((result & 0x00800000L) != 0) {
+            result >>= 8;
+            size++;
+        }
+        result |= size << 24;
+        result |= value.signum() == -1 ? 0x00800000 : 0;
+        return result;
+    }
+
+    /**
      * If non-null, overrides the return value of now().
      */
     public static volatile Date mockTime;
