@@ -158,6 +158,7 @@ public class CoinDefinition {
     //net.cpp strDNSSeed
     static public String[] dnsSeeds = new String[] {
         "185.5.53.132",
+        "seed.sicanet.net",
         "seed.freico.in",
         "seed.mainnet.freicoin.pw",         
     };
