@@ -146,7 +146,7 @@ public abstract class NetworkParameters implements Serializable {
             scriptPubKeyBytes.reset();
             Script.writeBytes(scriptPubKeyBytes, Hex.decode("202020202020"));
             scriptPubKeyBytes.write(ScriptOpCodes.OP_DROP);
-            Script.writeBytes(scriptPubKeyBytes, Hex.decode("4963682077c3bc6e736368652046726569636f696e207669656c204572666f6c67207a756d204e75747a656e206465722039392050726f7a656e7421"));
+            Script.writeBytes(scriptPubKeyBytes, Hex.decode("4963682077c3bc6e7363686520574c43207669656c204572666f6c67207a756d204e75747a656e206465722039392050726f7a656e7421"));
             scriptPubKeyBytes.write(ScriptOpCodes.OP_DROP);
             scriptPubKeyBytes.write(ScriptOpCodes.OP_DUP);
             scriptPubKeyBytes.write(ScriptOpCodes.OP_HASH160);
@@ -192,7 +192,7 @@ public abstract class NetworkParameters implements Serializable {
             throw new RuntimeException(e);
         }
         genesisBlock.addTransaction(t);
-        genesisBlock.setMerkleRoot(new Sha256Hash("f53b1baa971ea40be88cf51288aabd700dfec96c486bf7155a53a4919af4c8bd"));
+        genesisBlock.setMerkleRoot(new Sha256Hash("e399be31d62cef5791bd0f944e3a291fb4b22cf5c6528835ce60922977722785"));
         return genesisBlock;
     }
     private static Block createGenesis1(NetworkParameters n) {
@@ -220,11 +220,11 @@ public abstract class NetworkParameters implements Serializable {
 
 
 
-    public static final int TARGET_TIMESPAN = 14 * 24 * 60 * 60; // 2 weeks per difficulty cycle, on average.
+    public static final int TARGET_TIMESPAN = 128 * 10 * 60; // 2 weeks per difficulty cycle, on average.
     public static final int TARGET_SPACING = 10 * 60; // 10 minutes per block.
     public static final int INTERVAL = TARGET_TIMESPAN / TARGET_SPACING;
 
-    public static final int DIFF_FILTER_THRESHOLD = 28336;
+    public static final int DIFF_FILTER_THRESHOLD = INT_MAX;
 
     public static final int FILTERED_TARGET_TIMESPAN = 90 * 60; // 1.5 hours per difficulty cycle, on average.
     public static final int FILTERED_INTERVAL = FILTERED_TARGET_TIMESPAN / TARGET_SPACING;
