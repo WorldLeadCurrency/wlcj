@@ -224,7 +224,7 @@ public abstract class NetworkParameters implements Serializable {
     public static final int TARGET_SPACING = 10 * 60; // 10 minutes per block.
     public static final int INTERVAL = TARGET_TIMESPAN / TARGET_SPACING;
 
-    public static final int DIFF_FILTER_THRESHOLD = INT_MAX;
+    public static final int DIFF_FILTER_THRESHOLD = Integer.MAX_VALUE;
 
     public static final int FILTERED_TARGET_TIMESPAN = 90 * 60; // 1.5 hours per difficulty cycle, on average.
     public static final int FILTERED_INTERVAL = FILTERED_TARGET_TIMESPAN / TARGET_SPACING;
