@@ -159,6 +159,7 @@ public class CoinDefinition {
     static public String[] dnsSeeds = new String[] {
         "seed.winc-ev.de",
         "seed.winc-ev.com",
+        "dnsseed.wlc-dnsseed.ssdpool.com",
     };
 
     public static int minBroadcastConnections = 1;   //0 for default; we need more peers.
